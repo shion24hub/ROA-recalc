@@ -21,6 +21,7 @@ import minkabu
 DB_INIT = True
 DEBUG_MODE = True
 ALPHABET = string.ascii_uppercase
+LOWER_PROCESSING_LIMIT = 0
 UPPER_PROCESSING_LIMIT = 1000
 
 #logging
@@ -224,7 +225,7 @@ def calcroe() :
     """
     later.
     """
-    
+
     pass
 
 if __name__ == "__main__" :
@@ -266,7 +267,7 @@ if __name__ == "__main__" :
     if DEBUG_MODE :
         names = names[:5]
     else :
-        names = names[:UPPER_PROCESSING_LIMIT]
+        names = names[LOWER_PROCESSING_LIMIT:UPPER_PROCESSING_LIMIT]
 
     nameCodeDict = {}
     for ind, name in enumerate(names) :
