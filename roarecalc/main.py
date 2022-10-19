@@ -20,6 +20,7 @@ import minkabu
 
 DEBUG_MODE = True
 ALPHABET = string.ascii_uppercase
+UPPER_LIMIT = 1000
 
 #logging
 logging.basicConfig(
@@ -188,6 +189,8 @@ if __name__ == "__main__" :
     
     if DEBUG_MODE :
         names = names[:5]
+    else :
+        names = names[:UPPER_LIMIT]
 
     nameCodeDict = {}
     for ind, name in enumerate(names) :
