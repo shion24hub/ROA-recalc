@@ -44,6 +44,11 @@ def printLog(
     roa_2 : float,
     roa_3 : float,
 ) -> None:
+
+    """
+    later.
+    """
+
     logging.info("\ndata processed : No.{}".format(dataProcessed))
     logging.info("company name : {}".format(companyName))
     logging.info("net income-0 : {} (yen)".format(netIncome_0))
@@ -61,11 +66,26 @@ def printLog(
 
 #class for openpyxl processing
 class Exproc :
+
+    """
+    later.
+    """
+
     def __init__(self, path : str) -> None :
+
+        """
+        later.
+        """
+
         self.path = path
         self.row = 1
 
     def prepare(self, headers : list, sheet_title = "Sheet") -> None :
+
+        """
+        later.
+        """
+
         if len(headers) > 26 :
             error = "It only supports 26 letters of the alphabet! Sorry!"
             raise ValueError(error)
@@ -85,6 +105,11 @@ class Exproc :
         self.row += 1
 
     def insert(self, values : list) -> None :
+
+        """
+        later.
+        """
+
         try :
             self.sheet_title
         except :
@@ -101,22 +126,52 @@ class Exproc :
         
         self.row += 1
     
-    def write(self, cell : str, message : str) :
+    def write(self, cell : str, message : str) -> None :
+
+        """
+        later.
+        """
+
         self.sheet[cell] = message
 
     def finish(self) -> None :
+
+        """
+        later.
+        """
+
         self.wb.save(self.path)
 
 #for Database class
 class YetClosedError(Exception) :
+
+    """
+    later.
+    """
+
     pass
 
 class Database :
-    def __init__(self, path : str) :
+
+    """
+    later.
+    """
+
+    def __init__(self, path : str) -> None:
+
+        """
+        later.
+        """
+
         self.path = path
         self.nowConnect = False
     
-    def connectCursor(self) :
+    def connectCursor(self) -> None :
+
+        """
+        later.
+        """
+        
         connection = sqlite3.connect(self.path)
         cursor = connection.cursor()
 
@@ -124,7 +179,12 @@ class Database :
         self.connection = connection
         self.cursor = cursor
     
-    def init(self) :
+    def init(self) -> None :
+
+        """
+        later.
+        """
+
         if self.nowConnect :
             error = "Connection to the database is not closed, use the finish method."
             raise YetClosedError(error)
@@ -141,15 +201,30 @@ class Database :
         connection.commit()
         connection.close()
 
-    def finish(self) :
+    def finish(self) -> None :
+
+        """
+        later.
+        """
+
         self.nowConnect = False
         self.connection.commit()
         self.connection.close()
 
 def calcroa(net_income : float, total_assets : float) -> float :
+
+    """
+    later.
+    """
+
     return net_income / total_assets * 100
 
 def calcroe() :
+
+    """
+    later.
+    """
+    
     pass
 
 if __name__ == "__main__" :
