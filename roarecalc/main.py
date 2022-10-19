@@ -277,10 +277,12 @@ if __name__ == "__main__" :
         names = names[LOWER_PROCESSING_LIMIT:UPPER_PROCESSING_LIMIT]
 
     nameCodeDict = {}
+    noData = []
     for ind, name in enumerate(names) :
         res = minkabu.minkabu(name)
 
         if len(res) == 0 :
+            noData.append(name)
             continue
 
         ky = list(res.keys())
@@ -292,6 +294,7 @@ if __name__ == "__main__" :
             time.sleep(10)
             print("\nSleep for 10 seconds has been completed. Processing will continue.\n")
 
+    #Obtaining Financial Statements and Calculating ROA
     dataProcessed = 1
     countError = 0
     normalProcessing = 0
@@ -416,6 +419,6 @@ if __name__ == "__main__" :
     except :
         pass
 
-    
+    print("no data : {}".format(noData))
     db.finish()
     exproc.finish()
