@@ -49,7 +49,7 @@ def printLog(
     """
     later.
     """
-    
+
     print("\n")
     logging.info("data processed : No.{}".format(dataProcessed))
     logging.info("company name : {}".format(companyName))
@@ -290,6 +290,8 @@ if __name__ == "__main__" :
         va = list(res.values())
         nameCodeDict[ky[0]] = va[0]
 
+        if ind == 0 :
+            continue
         if ind % 50 == 0 :
             print("\nThe system goes into a 10-second sleep.\n")
             time.sleep(10)
