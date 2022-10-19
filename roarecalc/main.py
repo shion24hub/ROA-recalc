@@ -236,7 +236,6 @@ if __name__ == "__main__" :
             pass
         else :
             print("Interrupts the program (the database is not initialized).")
-        
 
     #for excel
     exproc = Exproc("./data/roacalc.xlsx")
