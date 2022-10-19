@@ -320,15 +320,18 @@ if __name__ == "__main__" :
     #         )
     # except :
     #     pass
-    message1 = "Total count : " + str(dataProcessed - 1)
-    message2 = "Normal processing : " + str(normalProcessing)
-    message3 = "error count : " + str(countError)
-    message4 = "source code : https://github.com/shion24hub/ROA-recalc"
+    try :
+        message1 = "Total count : {}".format(dataProcessed - 1)
+        message2 = "Normal processing : {} ({:.3f}%)".format(normalProcessing, normalProcessing / dataProcessed * 100)
+        message3 = "error count : {} ({:.3f}%)".format(countError, countError / dataProcessed * 100)
+        message4 = "source code : https://github.com/shion24hub/ROA-recalc"
 
-    exproc.write("O1", message1)
-    exproc.write("O2", message2)
-    exproc.write("O3", message3)
-    exproc.write("O4", message4)
+        exproc.write("O1", message1)
+        exproc.write("O2", message2)
+        exproc.write("O3", message3)
+        exproc.write("O4", message4)
+    except :
+        pass
 
     
     db.finish()
