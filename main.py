@@ -14,6 +14,7 @@ import logging
 
 import minkabu
 
+DEBUG_MODE = True
 ALPHABET = string.ascii_uppercase
 
 #logging
@@ -76,6 +77,9 @@ class Exproc :
             self.sheet[cell] = value
         
         self.row += 1
+    
+    def write(self, cell : str, message : str) :
+        self.sheet[cell] = message
 
     def finish(self) -> None :
         self.wb.save(self.path)
@@ -89,21 +93,28 @@ def calcroe() :
 
 if __name__ == "__main__" :
 
+    exproc = Exproc("./data/roacalc.xlsx")
+    exproc.prepare(
+        headers=["COMPANY NAME", "NET INCOME", "TOTAL ASSETS", "ROA"]
+    )
+    message = "source code : https://github.com/shion24hub/ROA-recalc"
+    exproc.write(
+        "F1",
+        message,
+    )
+
     #read sheet
     sheet = pd.read_excel("./data/CBASE05_201502.xlsx")
     names = []
     for name in list(sheet["COMNAME"]) :
         names.append(''.join(name.split()))
     
-    exproc = Exproc("./data/roacalc.xlsx")
-    exproc.prepare(
-        headers=["COMPANY NAME", "NET INCOME", "TOTAL ASSETS", "ROA"]
-    )
+    if DEBUG_MODE :
+        names = names[:10]
 
     nameCodeDict = {}
     for name in names :
         res = minkabu.minkabu(name)
-        print("res : {}".format(res))
 
         if len(res) == 0 :
             continue
