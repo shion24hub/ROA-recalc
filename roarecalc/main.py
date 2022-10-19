@@ -231,7 +231,7 @@ def calcroe() :
 if __name__ == "__main__" :
 
     if DB_INIT :
-        confirm = input("Can I really initialize the database(Y/n)")
+        confirm = input("Can I really initialize the database? (Y/n)")
         if confirm == "Y" :
             pass
         else :
