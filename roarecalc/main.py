@@ -18,6 +18,7 @@ import time
 
 import minkabu
 
+DB_INIT = True
 DEBUG_MODE = True
 ALPHABET = string.ascii_uppercase
 UPPER_PROCESSING_LIMIT = 1000
@@ -176,7 +177,7 @@ if __name__ == "__main__" :
     #for database
     db = Database("./db/companyInfo.db")
 
-    if DEBUG_MODE :
+    if DB_INIT :
         db.init()
     
     db.connectCursor()
