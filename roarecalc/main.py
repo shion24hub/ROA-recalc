@@ -1,6 +1,6 @@
 """
 We have found a number of errors in the ROA figures in CBASE05_201502.xlsx. 
-This program will recalculate ROA for the for the company included in this file.
+This program will recalculate ROA for the company included in this file.
 CBASE05_201502.xlsx file is confidential and cannot be released. 
 If you have this file, place it in the 'data' directory and run this program.
 
