@@ -49,8 +49,9 @@ def printLog(
     """
     later.
     """
-
-    logging.info("\ndata processed : No.{}".format(dataProcessed))
+    
+    print("\n")
+    logging.info("data processed : No.{}".format(dataProcessed))
     logging.info("company name : {}".format(companyName))
     logging.info("net income-0 : {} (yen)".format(netIncome_0))
     logging.info("total assets-0 : {} (yen)".format(totalAssets_0))
