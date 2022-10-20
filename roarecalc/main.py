@@ -7,6 +7,7 @@ If you have this file, place it in the 'data' directory and run this program.
 Github : https://github.com/shion24hub/ROA-recalc
 """
 
+from email import message
 import pandas as pd
 import yfinance
 import openpyxl
@@ -284,6 +285,7 @@ if __name__ == "__main__" :
 
         if len(res) == 0 :
             noData.append(name)
+            nameCodeDict[name] = "0000"
             continue
 
         ky = list(res.keys())
@@ -300,9 +302,22 @@ if __name__ == "__main__" :
     #Obtaining Financial Statements and Calculating ROA
     dataProcessed = 1
     countError = 0
+    countNoData = 0
     normalProcessing = 0
     for name, scode in nameCodeDict.items() :
         try : 
+            if scode == "0000" :
+                values = [name]
+                for _ in range(12) :
+                    values.append("NO-DATA")
+                exproc.insert(
+                    values
+                )
+                countNoData += 1
+                #TODO : デザイン的にtryexceptの下に統一すべき
+                dataProcessed += 1
+                continue
+
             scode += ".T"
             ticker = yfinance.Ticker(scode)
             fi = ticker.financials
@@ -413,12 +428,22 @@ if __name__ == "__main__" :
         message1 = "Total count : {}".format(dataProcessed - 1)
         message2 = "Normal processing : {} ({:.3f}%)".format(normalProcessing, normalProcessing / dataProcessed * 100)
         message3 = "error count : {} ({:.3f}%)".format(countError, countError / dataProcessed * 100)
-        message4 = "source code : https://github.com/shion24hub/ROA-recalc"
+        message4 = "no-data count : {} ({:.3f}%)".format(countNoData, countNoData / dataProcessed * 100)
+
+        message5 = "error : Delisting and other reasons (program bug etc.)" 
+        message6 = "no-data : The company name has changed, or the company was never listed in the first place and other reasons (program bug etc.)"
+
+        message7 = "source code : https://github.com/shion24hub/ROA-recalc"
 
         exproc.write("O1", message1)
         exproc.write("O2", message2)
         exproc.write("O3", message3)
         exproc.write("O4", message4)
+
+        exproc.write("O6", message5)
+        exproc.write("O7", message6)
+
+        exproc.write("O9", message7)
     except :
         pass
 
