@@ -38,7 +38,6 @@ class Exproc :
         for ind, header in enumerate(headers) :
             cell = alphabet[ind] + "1"
             sheet[cell] = header
-            sheet[cell].font = Font(bold=True)
 
         self.wb = wb
         self.sheet = sheet
