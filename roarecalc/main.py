@@ -121,7 +121,7 @@ def main() -> None :
     message1 = "Total Count : {}".format(processNumber)
     message2 = "Normal Processing : {} ({:.3f}%)".format(normalProcessing, normalProcessing / processNumber * 100)
     message3 = "Error Count : {} ({:.3f}%)".format(errorCount, errorCount / processNumber * 100)
-    message4 = "Source Code : https://github.com/shion24hub/ROA-recalc"
+    message4 = "Source Code : https://github.com/shion24hub/financial-figure-recalc.git"
 
     column = EXCEL_COLUMN[len(USING_EXCEL_HEADERS) + 1]
     exproc.write(column + "1", message1)
