@@ -1,29 +1,47 @@
 import pandas as pd
 
-def calcroa(fins : pd.DataFrame, bs : pd.DataFrame) -> tuple :
+def calcroa(fins : pd.DataFrame, bs : pd.DataFrame, periods = 4) -> tuple :
 
     """
     later.
     """
 
-    roaL = []
     netIncomeL = []
     totalAssetL = []
-    for period in range(4) :
-        netIncome = fins.loc["Net Income"][period]
-        totalAssets = bs.loc["Total Assets"][period]
-        roa = netIncome / totalAssets * 100
+    roaL = []
+    for period in range(periods) :
+        try :
+            netIncome = fins.loc["Net Income"][period]
+            totalAssets = bs.loc["Total Assets"][period]
+            roa = netIncome / totalAssets * 100
 
-        roaL.append(roa)
-        netIncomeL.append(netIncome)
-        totalAssetL.append(totalAssets)
+            roaL.append(roa)
+            netIncomeL.append(netIncome)
+            totalAssetL.append(totalAssets)
+        except :
+            return -1
     
-    return (roaL, netIncomeL, totalAssetL)
+    return (netIncomeL, totalAssetL, roaL)
 
-def calcroe() :
+def calcroe(fins : pd.DataFrame, bs : pd.DataFrame, periods = 4) -> tuple :
 
     """
     later.
     """
 
-    pass
+    netIncomeL = []
+    netWorthL = []
+    roeL = []
+    for period in range(periods) :
+        try :
+            netIncome = fins.loc["Net Income"][period]
+            netWorth = bs.loc["Total Stockholder Equity"][period]
+            roe = netIncome / netWorth * 100
+
+            roeL.append(roe)
+            netIncomeL.append(netIncome)
+            netWorthL.append(netWorth)
+        except :
+            return -1
+    
+    return (netIncomeL, netWorthL, roeL)

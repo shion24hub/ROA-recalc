@@ -7,39 +7,41 @@ If you have this file, place it in the 'data' directory and run this program.
 Github : https://github.com/shion24hub/ROA-recalc
 """
 
-from importlib.util import find_spec
 import pandas as pd
-import yfinance
 import sys
-import time
-from pprint import pprint
 
 from library.excel.excel import Exproc
 from library.db.database import Database
 from library.logging.logging import printLog
-from library.fetcher.minkabu import minkabu
 
 from config import (
-    READ_FROM_SHEET,
     DB_INIT,
     DEBUG_MODE,
     LOWER_PROCESSING_LIMIT,
     UPPER_PROCESSING_LIMIT,
+    EXCEL_COLUMN,
     TEST_EXCEL_PATH,
     PRODUCTION_EXCEL_PATH,
     TEST_DATABASE_PATH,
     PRODUCTION_DATABASE_PATH,
+    USING_PERIODS,
     USING_FINANCIAL_FUNCTIONS,
     USING_EXCEL_HEADERS
 )
 
 def switcher(debugMode : bool) -> tuple :
+    """
+    later.
+    """
     if debugMode :
         return (TEST_EXCEL_PATH, TEST_DATABASE_PATH)
     else :
         return (PRODUCTION_EXCEL_PATH, PRODUCTION_DATABASE_PATH)
 
 def main() -> None :
+    """
+    later.
+    """
     excelPath, dbPath = switcher(DEBUG_MODE)
 
     #for excel
@@ -75,20 +77,60 @@ def main() -> None :
     names = dataL[0]
     fins = dataL[1]
     bss = dataL[2]
+    if DEBUG_MODE :
+        names = names[LOWER_PROCESSING_LIMIT : UPPER_PROCESSING_LIMIT]
+        fins = fins[LOWER_PROCESSING_LIMIT : UPPER_PROCESSING_LIMIT]
+        bss = bss[LOWER_PROCESSING_LIMIT : UPPER_PROCESSING_LIMIT]
 
+    processNumber = 0
+    normalProcessing = 0
+    errorCount = 0
     for name, fin, bs in zip(names, fins, bss) :
         finDf = pd.read_json(fin[0])
         bsDf = pd.read_json(bs[0])
+        values = [name[0]]
+        errorValues = [name[0]]
+        is_error = False
+        
         for f in USING_FINANCIAL_FUNCTIONS :
-            figures = f(finDf, bsDf)
-            print(figures)
-            # exproc.insert(
-                
-            # )
-        break
+            figures = f(finDf, bsDf, USING_PERIODS)
 
+            #error handling
+            if figures == -1 :
+                for _ in range(len(USING_EXCEL_HEADERS) - 1) :
+                    errorValues.append("ERROR")
+                    is_error = True
+                break
+            
+            for figure in figures :
+                for value in figure :
+                    values.append(value)
+
+        if is_error :
+            printLog(USING_EXCEL_HEADERS, errorValues)
+            exproc.insert(errorValues)
+            errorCount += 1
+        else :
+            printLog(USING_EXCEL_HEADERS, values)
+            exproc.insert(values)
+            normalProcessing += 1
+        
+        processNumber += 1
+    
+    #excel info
+    message1 = "Total Count : {}".format(processNumber)
+    message2 = "Normal Processing : {} ({:.3f}%)".format(normalProcessing, normalProcessing / processNumber * 100)
+    message3 = "Error Count : {} ({:.3f}%)".format(errorCount, errorCount / processNumber * 100)
+    message4 = "Source Code : https://github.com/shion24hub/ROA-recalc"
+
+    column = EXCEL_COLUMN[len(USING_EXCEL_HEADERS) + 1]
+    exproc.write(column + "1", message1)
+    exproc.write(column + "2", message2)
+    exproc.write(column + "3", message3)
+    exproc.write(column + "5", message4)
+    
+    exproc.finish()
     db.finish()
-
 
 if __name__ == "__main__" :
 

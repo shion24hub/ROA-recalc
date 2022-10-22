@@ -1,7 +1,8 @@
 import openpyxl
-import string
+from openpyexcel.styles import Font
 
-alphabet = string.ascii_uppercase
+from config import EXCEL_COLUMN
+alphabet = EXCEL_COLUMN
 
 class Exproc :
 
@@ -18,25 +19,26 @@ class Exproc :
         self.path = path
         self.row = 1
 
-    def prepare(self, headers : list, sheet_title = "Sheet") -> None :
+    def prepare(self, headers : list, sheetTitle = "Sheet") -> None :
 
         """
         later.
         """
 
-        if len(headers) > 26 :
-            error = "It only supports 26 letters of the alphabet! Sorry!"
+        if len(headers) > 702 :
+            error = "It only supports 702 letters of the alphabet(a-zz)! Sorry!"
             raise ValueError(error)
         
         self.headers = headers
-        self.sheet_title = sheet_title
+        self.sheet_title = sheetTitle
 
         wb = openpyxl.Workbook()
-        sheet = wb[sheet_title]
+        sheet = wb[sheetTitle]
 
         for ind, header in enumerate(headers) :
             cell = alphabet[ind] + "1"
             sheet[cell] = header
+            sheet[cell].font = Font(bold=True)
 
         self.wb = wb
         self.sheet = sheet
@@ -56,6 +58,7 @@ class Exproc :
 
         if len(values) != len(self.headers) :
             error = "The number of values does not match the number of headers."
+            print("POINT : {}".format(values[0]))
             raise ValueError(error)
         
         for ind, value in enumerate(values) :
