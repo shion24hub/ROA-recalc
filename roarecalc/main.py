@@ -20,6 +20,7 @@ from config import (
     LOWER_PROCESSING_LIMIT,
     UPPER_PROCESSING_LIMIT,
     EXCEL_COLUMN,
+    EXCEL_WITH_ERROR,
     TEST_EXCEL_PATH,
     PRODUCTION_EXCEL_PATH,
     TEST_DATABASE_PATH,
@@ -108,7 +109,8 @@ def main() -> None :
 
         if is_error :
             printLog(USING_EXCEL_HEADERS, errorValues)
-            exproc.insert(errorValues)
+            if EXCEL_WITH_ERROR :
+                exproc.insert(errorValues)
             errorCount += 1
         else :
             printLog(USING_EXCEL_HEADERS, values)

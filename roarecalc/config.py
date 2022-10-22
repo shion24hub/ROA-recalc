@@ -17,7 +17,8 @@ UPPER_PROCESSING_LIMIT : int = 1000
 
 alphabets = list(string.ascii_uppercase)
 additionAlphabets = [alphabet1 + alphabet2 for alphabet1 in alphabets for alphabet2 in alphabets]
-EXCEL_COLUMN = alphabets + additionAlphabets
+EXCEL_COLUMN : list = alphabets + additionAlphabets
+EXCEL_WITH_ERROR : bool = False
 TEST_EXCEL_PATH : str = "./product/test.xlsx"
 PRODUCTION_EXCEL_PATH : str = "./product/product.xlsx"
 

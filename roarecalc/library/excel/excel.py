@@ -1,5 +1,4 @@
 import openpyxl
-from openpyexcel.styles import Font
 
 from config import EXCEL_COLUMN
 alphabet = EXCEL_COLUMN
